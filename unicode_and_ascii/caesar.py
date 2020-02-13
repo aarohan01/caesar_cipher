@@ -19,17 +19,22 @@
 # 10. Unicode support - done
 # 11. command line arguments
 # 12. better file memory management
+# 13. Improved questions
+# 14. improved file names saved
+# 15. save key in a file
+# 16. make a exe
 
 # In[2]:
 
 
 import chardet
+import argparse
 import sys
 from os import path
 from random import randint
 
 
-# In[12]:
+# In[3]:
 
 
 DICT = [chr(letter) for letter in range(sys.maxunicode)]
@@ -97,7 +102,7 @@ class Encrypt():
                 try:
                     en_key = int(
                         input('Enter the key. Key needs to be a positive or negative number! : '))
-                    if type(en_key) == type(float()):
+                    if isinstance(en_key, type(float())):
                         raise ValueError
                 except ValueError:
                     print(f'Key can only be a positive or negative integer number!')
@@ -186,7 +191,7 @@ class Decrypt():
         while True:
             try:
                 en_key = int(input('Enter the key. Normal or shortened. : '))
-                if type(en_key) == type(float()):
+                if isinstance(en_key, type(float())):
                     raise ValueError
             except ValueError:
                 print(f'Key can only be a positive or negative integer number!')
@@ -271,103 +276,158 @@ def key_choice():
     return cyn
 
 
-# In[ ]:
+# In[9]:
 
 
 def cmdline():
 
-    # In[9]:
+    text = str()
+    file = str()
+    key = int()
+
+    parser = argparse.ArgumentParser()
+
+    ### Interactive mode ###
+    parser.add_argument(
+        "-i",
+        "--interactive",
+        action="store_true",
+        help="Interactive mode")
+
+    # Mutually exclusive group of text and file, since both cannot be together
+    # ###
+    group_tf = parser.add_mutually_exclusive_group()
+    group_tf.add_argument("-t", "--text", type=str, help="Text input")
+    group_tf.add_argument("-f", "--file-path", type=str, help="File input")
+
+    # Mutually exclusive group of encrypt and decrypt, since both cannot be
+    # together ###
+    group_ed = parser.add_mutually_exclusive_group()
+    group_ed.add_argument(
+        "-e",
+        "--encypt",
+        action="store_true",
+        help="Encrypt")
+    group_ed.add_argument(
+        "-d",
+        "--decrypt",
+        action="store_true",
+        help="Decrypt")
+
+    parser.add_argument("-k", type=int, help="Key")
+
+    args = parser.parse_args()
+
+    if args.i == True:
+        print
+
+    ### If interactive only return interactive ###
+    # if args.i:
+    #    return args.i
+    #
+    # else:
+
+    # if args.k == None:
+    #print('Random key will be taken')
+
+    # print('XYZ')
+
+    # return args.i,args.k
+
+
+# In[10]:
 
 
 def main():
     ''' This is the main function. This controls enverything. '''
 
-    ### Welcome ###
-    print('Welcome to extended caesar cipher. This utility encrypts text or file using caesar cipher\'s principle.')
-    print('Encryption will take place for ascii characters only.')
-    print('Enter either text or file you want to encrypt and a key.')
-    print('For multiline input, use the file option.')
-    print('Key can be a positive or negative number.')
-    print('\n')
-    print(r'Have fun!!!  ¯\_(^^)_/¯ ')
-    print('\n\n')
+    i = cmdline()
+    if i == True:
+        print('YYYYYYYYYYYYYYYYYY')
+    elif i == 1:
 
-    ### Choices ###
-    ced, ctf = choices()
-    if ced == 'e':  # Encrypt ###
+        ### Welcome ###
+        print('Welcome to extended caesar cipher. This utility encrypts text or file using caesar cipher\'s principle.')
+        print('Encryption will take place for ascii characters only.')
+        print('Enter either text or file you want to encrypt and a key.')
+        print('For multiline input, use the file option.')
+        print('Key can be a positive or negative number.')
+        print('\n')
+        print(r'Have fun!!!  ¯\_(^^)_/¯ ')
+        print('\n\n')
 
-        e = Encrypt()
+        ### Choices ###
+        ced, ctf = choices()
+        if ced == 'e':  # Encrypt ###
 
-        if ctf == 't':  # Text input ###
-            text = e.get_text()
-            cyn = key_choice()
+            e = Encrypt()
 
-            if cyn == 'y':  # Key input ###
-                dict_keys, original_key, new_key = e.get_key()
-            else:
-                dict_keys, original_key, new_key = e.get_key(
-                    en_key=randint(1, 99999))
+            if ctf == 't':  # Text input ###
+                text = e.get_text()
+                cyn = key_choice()
 
-            result = e.encrypt_text(
-                text,
-                dict_keys,
-                original_key,
-                new_key)  # Encryption ###
-            print('\n\n')
-            print(f'''Encrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+                if cyn == 'y':  # Key input ###
+                    dict_keys, original_key, new_key = e.get_key()
+                else:
+                    dict_keys, original_key, new_key = e.get_key(
+                        en_key=randint(1, 99999))
 
-        if ctf == 'f':  # File input ###
-            text, file = e.get_text_from_file()
-            cyn = key_choice()
-            if cyn == 'y':  # Key input ###
-                dict_keys, original_key, new_key = e.get_key()
-            else:
-                dict_keys, original_key, new_key = e.get_key(
-                    en_key=randint(1, sys.maxunicode))
+                result = e.encrypt_text(
+                    text, dict_keys, original_key, new_key)  # Encryption ###
+                print('\n\n')
+                print(f'''Encrypted text : '{result[0]}' ''')
+                print(f'''Key            : '{result[1]}' ''')
+                print(f'''Shortened key  : '{result[2]}' ''')
 
-            result = e.encrypt_text_to_file(
-                text, file, dict_keys, original_key, new_key)
+            if ctf == 'f':  # File input ###
+                text, file = e.get_text_from_file()
+                cyn = key_choice()
+                if cyn == 'y':  # Key input ###
+                    dict_keys, original_key, new_key = e.get_key()
+                else:
+                    dict_keys, original_key, new_key = e.get_key(
+                        en_key=randint(1, sys.maxunicode))
 
-            print('\n\n')
-            print(f'''Encrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+                result = e.encrypt_text_to_file(
+                    text, file, dict_keys, original_key, new_key)
 
+                print('\n\n')
+                print(f'''Encrypted file : '{result[0]}' ''')
+                print(f'''Key            : '{result[1]}' ''')
+                print(f'''Shortened key  : '{result[2]}' ''')
+
+        else:
+
+            d = Decrypt()
+
+            if ctf == 't':  # Text input ###
+                text = d.get_text()
+                dict_keys, original_key, new_key = d.get_key()
+
+                result = d.decrypt_text(
+                    text, dict_keys, original_key, new_key)  # Decryption ###
+
+                print('\n\n')
+                print(f'''Decrypted text : '{result[0]}' ''')
+                print(f'''Key            : '{result[1]}' ''')
+                print(f'''Shortened key  : '{result[2]}' ''')
+
+            if ctf == 'f':  # File input ###
+                text, file = d.get_text_from_file()
+                dict_keys, original_key, new_key = d.get_key()
+
+                result = d.decrypt_text_to_file(
+                    text, file, dict_keys, original_key, new_key)
+
+                print('\n\n')
+                print(f'''Decrypted file : '{result[0]}' ''')
+                print(f'''Key            : '{result[1]}' ''')
+                print(f'''Shortened key  : '{result[2]}' ''')
     else:
-
-        d = Decrypt()
-
-        if ctf == 't':  # Text input ###
-            text = d.get_text()
-            dict_keys, original_key, new_key = d.get_key()
-
-            result = d.decrypt_text(
-                text,
-                dict_keys,
-                original_key,
-                new_key)  # Decryption ###
-
-            print('\n\n')
-            print(f'''Decrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
-
-        if ctf == 'f':  # File input ###
-            text, file = d.get_text_from_file()
-            dict_keys, original_key, new_key = d.get_key()
-
-            result = d.decrypt_text_to_file(
-                text, file, dict_keys, original_key, new_key)
-
-            print('\n\n')
-            print(f'''Decrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+        print('NOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!!!')
 
 
-# In[10]:
+# In[ ]:
 
 ### This is to convert ipynb files to py if run in Jupyter notebook ###
 ### Also this will cause no problem even if .py file is directly run ###
@@ -380,7 +440,7 @@ else:
         get_ipython().system('jupyter nbconvert --to script caesar.ipynb')
         get_ipython().system('pylint caesar.py')
         get_ipython().system('autopep8 --in-place --aggressive caesar.py')
-        get_ipython().system('pylint cipher.py  ')
+        get_ipython().system('pylint caesar.py  ')
 finally:
     if __name__ == "__main__":
         main()
