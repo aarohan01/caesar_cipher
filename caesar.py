@@ -7,23 +7,6 @@
 ''' This module is to encrypt text by using "Caesar cipher". This module uses extended ascii letters from string modules. '''
 
 
-# 1. option to choose file or enter text - done
-# 2. if key is 0 or equivalent take a random key - not required
-# 3. select random key for encryption itself - done
-# 4. file not found break - done
-# 5. Issue with \n\r etc - done
-# 6. positional parameters
-# 7. brute force
-# 8. auto convert to py - done
-# 9. if letter not found return same letter - done
-# 10. Unicode support - done
-# 11. command line arguments
-# 12. better file memory management
-# 13. Improved questions
-# 14. improved file names saved
-# 15. save key in a file
-# 16. make a exe
-
 # In[2]:
 
 
@@ -589,7 +572,7 @@ def main():
             print(f'''Shortened key  : '{result[2]}' ''')
 
 
-# In[14]:
+# In[ ]:
 
 
 ### This is to convert ipynb files to py if run in Jupyter notebook ###
