@@ -11,17 +11,17 @@ Arguments can be passed as both command line or interactively.
 This is just a fun project to implement caesar cipher. As caesar cipher is a primitive and weak cipher, these are not intended for real encryption use cases.  
 
 
-### Usage :  
+# Usage :  
 Recommended to use notepad to view files since it supports ASCII or Unicode.  
 Recommeneded to encrypt or decrypt in file rather than text, as cmd cannot display unicode characters properly.  
 
 
 Run cmd and go to location of caesar.py  
 
-# Interactive mode ->  
+## Interactive mode ->  
 caesar.py  or caesar.py -i   
 
-# Commandline interface ->
+## Commandline interface ->
 Encryption : caesar.py -e -f test.txt -k 10083982  
 Decryption : caesar.py -d -f test.cen -k 10083982  
 
