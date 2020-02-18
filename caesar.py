@@ -237,7 +237,7 @@ class Decrypt():
         return DICT_KEYS, original_key, abs(en_key)
 
     @staticmethod
-    def decrypt_text(text, dict_keys, original_key, new_key, charenc):
+    def decrypt_text(text, dict_keys, original_key, new_key):
         ''' This function returns decrypted text. '''
         # Return mapped letter if present or return letter [ Other than ascii
         # characters ] ###
@@ -412,6 +412,17 @@ def welcome():
 # In[12]:
 
 
+def print_result(result, action, source):
+    ''' This function prints the final result output. '''
+    print('\n\n')
+    print(f'''{action} {source} : '{result[0]}' ''')
+    print(f'''Key            : '{result[1]}' ''')
+    print(f'''Shortened key  : '{result[2]}' ''')
+
+
+# In[13]:
+
+
 def main_cmd(args):
     ''' This is the main function. This controls enverything. '''
     welcome()
@@ -435,10 +446,7 @@ def main_cmd(args):
                 dict_keys,
                 original_key,
                 new_key)  # Encryption ###
-            print('\n\n')
-            print(f'''Encrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Encrypted', 'text')
 
         if args.f is not None:  # File input ###
             text, file, charenc = e.get_text_from_file(args.f)
@@ -451,10 +459,7 @@ def main_cmd(args):
 
             result = e.encrypt_text_to_file(
                 text, file, dict_keys, original_key, new_key, charenc)
-            print('\n\n')
-            print(f'''Encrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Encrypted', 'file')
 
     else:
 
@@ -470,11 +475,7 @@ def main_cmd(args):
                 dict_keys,
                 original_key,
                 new_key)  # Decryption ###
-
-            print('\n\n')
-            print(f'''Decrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Decrypted', 'text')
 
         if args.f is not None:  # File input ###
             text, file, charenc = d.get_text_from_file(args.f)
@@ -483,14 +484,10 @@ def main_cmd(args):
 
             result = d.decrypt_text_to_file(
                 text, file, dict_keys, original_key, new_key, charenc)
-
-            print('\n\n')
-            print(f'''Decrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Decrypted', 'file')
 
 
-# In[13]:
+# In[14]:
 
 
 def main():
@@ -518,10 +515,7 @@ def main():
                 dict_keys,
                 original_key,
                 new_key)  # Encryption ###
-            print('\n\n')
-            print(f'''Encrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Encrypted', 'text')
 
         if ctf == 'f':  # File input ###
             text, file, charenc = e.get_text_from_file()
@@ -534,11 +528,7 @@ def main():
 
             result = e.encrypt_text_to_file(
                 text, file, dict_keys, original_key, new_key, charenc)
-
-            print('\n\n')
-            print(f'''Encrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Encrypted', 'file')
 
     else:
 
@@ -553,11 +543,7 @@ def main():
                 dict_keys,
                 original_key,
                 new_key)  # Decryption ###
-
-            print('\n\n')
-            print(f'''Decrypted text : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Decrypted', 'text')
 
         if ctf == 'f':  # File input ###
             text, file, charenc = d.get_text_from_file()
@@ -565,14 +551,10 @@ def main():
 
             result = d.decrypt_text_to_file(
                 text, file, dict_keys, original_key, new_key, charenc)
-
-            print('\n\n')
-            print(f'''Decrypted file : '{result[0]}' ''')
-            print(f'''Key            : '{result[1]}' ''')
-            print(f'''Shortened key  : '{result[2]}' ''')
+            print_result(result, 'Decrypted', 'file')
 
 
-# In[ ]:
+# In[15]:
 
 
 ### This is to convert ipynb files to py if run in Jupyter notebook ###
