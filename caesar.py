@@ -398,7 +398,7 @@ def welcome():
     ''' This funtion is to print welcome message. '''
     ### Welcome ###
     print('Welcome to extended caesar cipher. This utility encrypts text or file using caesar cipher\'s principle.')
-    print('Encryption will take place for ascii characters only.')
+    print('Encryption will take place for ascii or unicode characters.')
     print('Enter either text or file you want to encrypt and a key.')
     print('For multiline input, use the file option.')
     print('Key can be a positive or negative number.')
